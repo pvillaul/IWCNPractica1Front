@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}"
+      layout:decorator="fragments/layout">
+<head>
+    <title>Formulario añadir Usuario</title>
+</head>
+<body>
+	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
+	<h3>Nuevo Usuario</h3>
+	<hr>
+	<form class="form-horizontal" action="/spring-mvc-java/addUser" th:action="@{/addUser}"
+		th:object="${user}" method="post" modelAttribute="user">
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="code">Codigo:</label>
+		    <div class="col-sm-10">
+		    	<input type="text" th:field="*{code}" class="form-control" id="code" placeholder="Codigo del Usuario">
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="name">Nombre:</label>
+		    <div class="col-sm-10">
+		    	<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nombre del Usuario">
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="pass">Contraseña:</label>
+		    <div class="col-sm-10">
+		    	<input type="password" th:field="*{password}" class="form-control" id="pass" placeholder="Contraseña del Usuario">
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="rol">Rol:</label>
+		    <div class="col-sm-10">
+		    	<select class="form-control" th:field="*{rol}" id="rol">
+					<option value="Admin">Admin</option>
+				    <option value="Viewer" selected>Viewer</option>
+				</select>
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+		    	<button type="submit" class="btn btn-success">Enviar</button>
+		    	<button type="reset" class="btn btn-warning">Borrar</button>
+		    </div>
+		</div>
+	</form>
+	<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Volver Atras</a>
+	</div>
+</body>
+</html>

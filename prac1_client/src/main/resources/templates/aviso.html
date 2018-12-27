@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}"
+      layout:decorator="fragments/layout">
+<head>
+    <title>Aviso</title>
+</head>
+<body>
+	<div layout:fragment="content" th:remove="tag" sec:authorize="isAuthenticated()" class="container">
+		<h3 th:text="${error.msg}"></h3>
+		<p th:text="${error.msg2}"></p>
+		<br>
+		<a th:href="@{/{url}/(url=${error.path})}" th:text="${error.pathtext}" role="button" class="btn btn-primary"></a>
+	</div>
+</body>
+</html>

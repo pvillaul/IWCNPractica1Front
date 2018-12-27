@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}"
+      layout:decorator="fragments/layout">
+<head>
+    <title>th:text="'Usuario - ' + ${user.code}"</title>
+</head>
+<body>
+	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
+		<div class="well">
+			<div class="row">
+	    		<div class="col-sm-4 col-sm-push-8">
+	    			<p th:text="'Codigo: ' + ${user.code}"></p>
+					<p th:text="'Nombre: ' + ${user.name}"></p>
+					<p th:text="'Contraseña: ' + ${user.password}"></p>
+					<p th:text="'Rol: ' + ${user.rol}"></p>
+	    		</div>
+	    		<div class="col-sm-8 col-sm-pull-4">
+	    			 <img src="user.png" th:src="@{/resources/static/user.png}" class="img-responsive" alt="Icono usuario">
+	    		</div>
+	    	</div>
+		</div>
+		<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Volver Atras</a>
+	</div>
+</body>
+</html>

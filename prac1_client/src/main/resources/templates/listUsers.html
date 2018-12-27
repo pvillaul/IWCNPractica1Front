@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}"
+      layout:decorator="fragments/layout">
+<head>
+    <title>Usuarios</title>
+</head>
+<body>
+	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
+		<h3>Lista de Usuarios</h3>
+		<hr>
+		<div th:each="user : ${users}">
+			<span>
+				<a th:href="@{/user/{id}/(id=${user.code})}"th:text="${user.name}"></a>
+				<a th:href="@{/modifyUserForm/{id}/(id=${user.code})}" role="button" class="btn btn-warning">Editar</a>
+				<a th:href="@{/removeUser/{id}/(id=${user.code})}" role="button" class="btn btn-danger">Eliminar</a>
+			</span>
+			<br>
+		</div>
+		<a th:href="@{/}" role="button" class="btn btn-primary">Volver atras</a>
+	</div>
+</body>
+</html>

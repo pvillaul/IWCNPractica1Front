@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}"
+      layout:decorator="fragments/layout">
+<head>
+    <title>Formulario modificar Usuario</title>
+</head>
+<body>
+	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
+	<h3>Editar Usuario</h3>
+	<hr>
+	<form class="form-horizontal" action="/spring-mvc-java/modifyUser" th:action="@{/modifyUser}"
+		th:object="${user}" method="post" modelAttribute="user">
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="code">Codigo:</label>
+		    <div class="col-sm-10">
+		    	<input type="text" th:field="*{code}" class="form-control" id="code" th:value="${olduser.code}">
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="name">Nombre:</label>
+		    <div class="col-sm-10">
+		    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${olduser.name}">
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="pass">Contraseña:</label>
+		    <div class="col-sm-10">
+		    	<input type="password" th:field="*{password}" class="form-control" id="pass" th:value="${olduser.password}">
+		    </div>
+		</div>
+		
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="rol">Rol:</label>
+		    <div class="col-sm-10">
+		    	<select class="form-control" th:field="*{rol}" id="rol">
+					<option value="Admin">Admin</option>
+				    <option value="Viewer" selected>Viewer</option>
+				</select>
+		    </div>
+		    <p th:value="'Rol actual ' + ${olduser.rol}"></p>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+		    	<button type="submit" class="btn btn-success">Enviar</button>
+		    	<button type="reset" class="btn btn-warning">Borrar</button>
+		    </div>
+		</div>
+	</form>
+	<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Volver Atras</a>
+	</div>
+</body>
+</html>
