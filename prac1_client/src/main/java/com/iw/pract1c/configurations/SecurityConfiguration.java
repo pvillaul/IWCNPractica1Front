@@ -33,22 +33,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }*/
 	
+	/*
 	@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) 
       throws Exception {
         auth
           .inMemoryAuthentication()
           .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
-    }
+    }*/
      
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
     
-    /*
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider);
-	}*/
+	}
 }

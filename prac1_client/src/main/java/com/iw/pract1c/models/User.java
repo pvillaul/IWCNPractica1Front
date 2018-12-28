@@ -9,9 +9,8 @@ import javax.persistence.Id;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 public class User {
@@ -26,7 +25,7 @@ public class User {
 	
 	public User(String name, String password, String rol) {
 		this.name = name;
-		this.password = new BCryptPasswordEncoder().encode(password);
+		this.password = passwordEncoder().encode(password);
 		this.rol = rol;
 	}
 
@@ -61,4 +60,8 @@ public class User {
 
         return list;
     }
+	
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 }
