@@ -11,33 +11,23 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 public class User implements UserDetailsService{
 	String ROLE_PREFIX = "ROLE_";
 	
 	@Id
-	private String code;
 	private String name;
 	private String password;
 	private String rol;
 	
 	public User() {}
 	
-	public User(String code, String name, String password, String rol) {
-		super();
-		this.code = code;
+	public User(String name, String password, String rol) {
 		this.name = name;
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 		this.rol = rol;
-	}
-	
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public String getName() {

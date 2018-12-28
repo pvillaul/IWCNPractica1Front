@@ -12,13 +12,17 @@
 		<hr>
 		<div th:each="user : ${users}">
 			<span>
-				<a th:href="@{/user/{id}/(id=${user.code})}"th:text="${user.name}"></a>
-				<a th:href="@{/modifyUserForm/{id}/(id=${user.code})}" role="button" class="btn btn-warning">Editar</a>
-				<a th:href="@{/removeUser/{id}/(id=${user.code})}" role="button" class="btn btn-danger">Eliminar</a>
+				<a th:href="@{/user/{id}/(id=${user.name})}"th:text="${user.name}"></a>
+				<a th:href="@{/modifyUserForm/{id}/(id=${user.name})}" role="button" class="btn btn-warning">Editar</a>
+				<a th:href="@{/removeUser/{id}/(id=${user.name})}" role="button" class="btn btn-danger">Eliminar</a>
 			</span>
 			<br>
 		</div>
-		<a th:href="@{/}" role="button" class="btn btn-primary">Volver atras</a>
+		<a th:href="@{/addUserForm}" role="button" class="btn btn-success">Nuevo Usuario</a>
+		
+		<div class="text-center">
+			<a th:href="@{/}" role="button" class="btn btn-primary">Volver atras</a>
+		</div>
 	</div>
 </body>
 </html>

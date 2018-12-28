@@ -11,7 +11,7 @@ public class DatabaseLoader {
 	
 	@PostConstruct
 	private void initDatabase() {
-        userRepository.save(new User("a1","root", "root", "ADMIN"));
-        userRepository.save(new User("u1","user", "password", "VIEWER"));
+        userRepository.save(new User("root", "root", "ADMIN"));
+        userRepository.save(new User("user", "password", "VIEWER"));
 	}
 }

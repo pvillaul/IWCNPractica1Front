@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.iw.pract1c.models.User;
 import com.iw.pract1c.repositories.UserRepository;
 
+@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider{
 	@Autowired
 	private UserRepository userRepository;

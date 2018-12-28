@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import com.iw.pract1c.models.Error;
 import com.iw.pract1c.models.Pelicula;
@@ -44,12 +45,12 @@ public class SpringFilm {
 		return "redirect:/login";
 	}
 	
-	@Secured({"ROLE_VIEWER","ROLE_ADMIN"})
-	@GetMapping("/search")
-	public String searchFilm(Model model, @ModelAttribute("searchFilm") Pelicula searchFilm, BindingResult result) {
-		Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + searchFilm.getName(),Pelicula.class);
-		model.addAttribute("pelicula",pelicula);
-		return "resumeFilm";
+	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@GetMapping("/searchFilm")
+	public String searchFilm(@RequestParam (value = "name", required = false) String name, Model model) {
+		Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + name,Pelicula.class);
+	    model.addAttribute("search", pelicula);
+	    return "students";
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -72,7 +73,7 @@ public class SpringFilm {
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/user/{id}")
 	public String showUser(@PathVariable String id, Model model) {
-		User user = userRepo.findByCode(id);
+		User user = userRepo.findByName(id);
 		model.addAttribute("user",user);
 		return "resumeUser";
 	}
@@ -109,7 +110,7 @@ public class SpringFilm {
 	
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/addFilmForm")
-	public String addFilm(@ModelAttribute Pelicula peli) {
+	public String addFilm(@ModelAttribute Pelicula film) {
 		return "addFilmForm";
 	}
 	
@@ -117,11 +118,10 @@ public class SpringFilm {
 	@PostMapping(value = "/addUser")
 	public String newProd(@ModelAttribute("user") User user,BindingResult result, ModelMap model) {
 		if(user != null) {
-			model.addAttribute("code", user.getCode());
 			model.addAttribute("name", user.getName());
 	        model.addAttribute("password", user.getPassword());
 	        model.addAttribute("rol", user.getRol());
-	        if(!userRepo.existsById(user.getCode())) {
+	        if(!userRepo.existsById(user.getName())) {
 	        	userRepo.save(user);
 	        }
 	        return "redirect:/listUsers";
@@ -157,7 +157,7 @@ public class SpringFilm {
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/modifyUserForm/{id}")
 	public String modifyUser(@PathVariable String id, Model model,@ModelAttribute User user) {
-		User olduser = userRepo.findByCode(id);
+		User olduser = userRepo.findByName(id);
 		model.addAttribute("olduser",olduser);
 		return "modifyUserForm";
 	}
@@ -174,12 +174,11 @@ public class SpringFilm {
 	@PutMapping(value = "/modifyUser")
 	public String modifyUser(@ModelAttribute("user") User user,BindingResult result, ModelMap model) {
 		if(user != null) {
-			model.addAttribute("code", user.getCode());
 			model.addAttribute("name", user.getName());
 	        model.addAttribute("password", user.getPassword());
 	        model.addAttribute("rol", user.getRol());
-	        if(userRepo.existsById(user.getCode())) {
-	        	userRepo.deleteById(user.getCode());
+	        if(userRepo.existsById(user.getName())) {
+	        	userRepo.deleteById(user.getName());
 	        	userRepo.save(user);
 	        }
 	        return "resumeUser";

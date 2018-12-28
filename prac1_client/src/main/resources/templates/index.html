@@ -15,8 +15,23 @@
 		</div>
 		
 		<div class="text-center">
-			<form action="/spring-mvc-java/search" th:action="@{/search}" th:object="${searchFilm}" method="get">
-				<input type="text" name="search" th:field="*{name}" placeholder="Search film ...">
+			<h2>Buscar Pelicula</h2>
+			<form th:object="${searchFilm}" th:action="@{/searchFilm}" method="get">
+		        <input type="text" name="search" id="search" placeholder="Search film ..." th:value="${search}"/><br>
+		        <button type="submit" class="btn btn-success">Buscar</button>
+		        <div th:if="${not #lists.isEmpty(peliculas)}">
+		            <h3>Lista de Peliculas</h3>
+		            <table class="table table-striped">
+		                <tr>
+		                    <th>Id</th>
+		                    <th>Name</th>
+		                    <th>Surname</th>
+		                </tr>
+		                <tr th:each="peli: ${peliculas}">
+		                    <td th:text="${peli.name}"><a th:href="@{/pelicula/{id}/(id=${peli.code})}"th:text="${peli.name}"></a></td>
+		                </tr>
+		            </table>
+		        </div>
 			</form>
 		</div>
 	</div>

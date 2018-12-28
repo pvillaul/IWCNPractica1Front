@@ -8,89 +8,82 @@
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
-	<h3>Editar Pelicula</h3>
-	<hr>
-	<form class="form-horizontal" action="/spring-mvc-java/modifyFilm" th:action="@{/modifyFilm}"
-		th:object="${film}" method="post" modelAttribute="film">
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="code">Codigo:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{code}" class="form-control" id="code" placeholder="Codigo de la Pelicula" th:value="${oldpeli.code}">
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="name">Nombre:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nombre de la Pelicula" th:value="${oldpeli.name}">
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="trailer">Trailer:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{trailer}" class="form-control" id="trailer" placeholder="Url del Trailer" th:value="${oldpeli.trailer}">
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="info">Descripcion:</label>
-		    <div class="col-sm-10">
-		    	<textarea rows="5" th:field="*{info}" class="form-control" id="info" placeholder="Descripcion de la Pelicula" th:value="${oldpeli.info}"></textarea>
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="year">Año:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{year}" class="form-control" id="year" placeholder="Año de la Pelicula" th:value="${oldpeli.year}">
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="director">Director:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{director}" class="form-control" id="director" placeholder="Director de la Pelicula" th:value="${oldpeli.director}">
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="reparto">Reparto:</label>
-		    <div class="col-sm-10">
-		    	<textarea rows="5" th:field="*{reparto}" class="form-control" id="reparto" placeholder="Reparto de la Pelicula" th:value="${oldpeli.reparto}"></textarea>
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="portada">Portada:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{portada}" class="form-control" id="portada" placeholder="Url de la Portada" th:value="${oldpeli.portada}">
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="rate">Puntuacion:</label>
-		    <div class="col-sm-10">
-		    	<select class="form-control" th:field="*{rate}" id="rate">
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-				    <option value="5" selected>5</option>
-				</select>
-		    </div>
-		    <p th:value="'Puntuacion actual ' + ${oldpeli.rate}"></p>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-		    	<button type="submit" class="btn btn-success">Enviar</button>
-		    	<button type="reset" class="btn btn-warning">Borrar</button>
-		    </div>
-		</div>
-	</form>
-	<a th:href="@{/listFilms}" role="button" class="btn btn-primary">Volver Atras</a>
+		<h3>Editar Pelicula</h3>
+		<hr>
+		<form class="form-horizontal" action="/spring-mvc-java/modifyFilm" th:action="@{/modifyFilm}"
+			th:object="${film}" method="post" modelAttribute="film">
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="code">Codigo:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{code}" class="form-control" id="code" th:value="${oldpeli.code}" readonly />
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="name">Nombre:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${oldpeli.name}"/>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="trailer">Trailer:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{trailer}" class="form-control" id="trailer" th:value="${oldpeli.trailer}"/>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="info">Descripcion:</label>
+			    <div class="col-sm-10">
+			    	<textarea rows="5" th:field="*{info}" class="form-control" id="info" th:value="${oldpeli.info}"></textarea>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="year">Año:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{year}" class="form-control" id="year" th:value="${oldpeli.year}"/>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="director">Director:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{director}" class="form-control" id="director" th:value="${oldpeli.director}"/>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="reparto">Reparto:</label>
+			    <div class="col-sm-10">
+			    	<textarea rows="5" th:field="*{reparto}" class="form-control" id="reparto" th:value="${oldpeli.reparto}"></textarea>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="portada">Portada:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{portada}" class="form-control" id="portada" th:value="${oldpeli.portada}"/>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="rate">Puntuacion:</label>
+			    <div class="col-sm-10">
+			    	<input type="text" th:field="*{rate}" class="form-control" id="rate" th:value="${oldpeli.portada}"/>
+			    </div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+			    	<button type="submit" class="btn btn-success">Enviar</button>
+			    	<button type="reset" class="btn btn-warning">Borrar</button>
+			    </div>
+			</div>
+		</form>
+		<a th:href="@{/listFilms}" role="button" class="btn btn-primary">Volver Atras</a>
 	</div>
 </body>
 </html>
