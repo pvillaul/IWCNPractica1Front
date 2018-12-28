@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-public class User implements UserDetailsService{
+public class User {
 	String ROLE_PREFIX = "ROLE_";
 	
 	@Id
@@ -52,11 +52,6 @@ public class User implements UserDetailsService{
 
 	public void setRol(String rol) {
 		this.rol = rol;
-	}
-	
-	@Override
-	public UserDetails loadUserByUsername(String username) {
-		return null;
 	}
 	
 	public Collection<? extends GrantedAuthority> getAuthorities() {
