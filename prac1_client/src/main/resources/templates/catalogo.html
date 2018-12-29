@@ -4,14 +4,18 @@
       layout:decorate="~{fragments/layout}"
       layout:decorator="fragments/layout">
 <head>
-    <title>Warning</title>
+    <title>Stored Movies</title>
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag" sec:authorize="isAuthenticated()" class="container">
-		<h3 th:text="${error.msg}"></h3>
-		<p th:text="${error.msg2}"></p>
-		<br>
-		<a th:href="@{/{url}/(url=${error.path})}" th:text="${error.pathtext}" role="button" class="btn btn-primary"></a>
+		<h3>Stored Movies List</h3>
+		<hr>
+		<ul th:each="film: ${films}" style="list-style-type:none">
+			  <li><a th:href="@{/pelicula/{id}/(id=${film.code})}"th:text="${film.name}"></a></li>
+		</ul>
+		<div class="text-center">
+			<a th:href="@{/}" role="button" class="btn btn-primary">Back</a>
+		</div>
 	</div>
 </body>
 </html>

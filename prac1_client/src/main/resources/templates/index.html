@@ -4,33 +4,57 @@
       layout:decorate="~{fragments/layout}"
       layout:decorator="fragments/layout">
 <head>
-    <title>Indice - Busqueda</title>
+    <title>Index - Search</title>
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag" sec:authorize="isAuthenticated()" class="container">
 		<div class="jumbotron text-center">
-			<h2>Bienvenido a Spring Film</h2>
-			<h3>La web que te pone al dia de los nuevos estrenos</h3>
-			<h3>y tambien de los clasicos</h3>
+			<h2>Welcome to Spring Film</h2>
+			<h3>The web that puts you up to date with the new releases</h3>
+			<h3>and also with the classics</h3>
+			<a th:href="@{/catalogo}" role="button" class="btn btn-success">All Films</a>
 		</div>
 		
 		<div class="text-center">
-			<h2>Buscar Pelicula</h2>
-			<form th:object="${searchFilm}" th:action="@{/searchFilm}" method="get">
-		        <input type="text" name="search" id="search" placeholder="Search film ..." th:value="${search}"/><br>
-		        <button type="submit" class="btn btn-success">Buscar</button>
+			<h2>Search Films</h2>
+			<form class="form-inline" th:object="${searchFilm}" th:action="@{/searchFilm}" method="get">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type="text" class="form-control" id="name" placeholder="Name of the Film" name="name" th:value="${name}" />
+				</div>
+				
+				<div class="form-group">
+					<label for="year">Year:</label>
+					<input type="text" class="form-control" id="year" placeholder="Year of the Film" name="year" th:value="${year}" />
+				</div>
+				
+				<div class="form-group">
+					<label for="genre">Genre:</label>
+					<input type="text" class="form-control" id="genre" placeholder="Genre of the Film" name="genre" th:value="${genre}" />
+				</div>
+				
+				<div class="form-group">
+					<label for="director">Director:</label>
+					<input type="text" class="form-control" id="director" placeholder="Director of the Film" name="director" th:value="${director}" />
+				</div>
+				
+				<div class="form-group">
+					<label for="cast">Cast:</label>
+					<input type="text" class="form-control" id="cast" placeholder="Cast of the Film" name="cast" th:value="${cast}" />
+				</div>
+				
+				<div class="form-group">
+					<label for="rate">Score:</label>
+					<input type="text" class="form-control" id="rate" placeholder="Score of the Film" name="rate" th:value="${rate}" />
+				</div>
+				
+				<button type="submit" class="btn btn-success">Search</button>
+				    
 		        <div th:if="${not #lists.isEmpty(peliculas)}">
-		            <h3>Lista de Peliculas</h3>
-		            <table class="table table-striped">
-		                <tr>
-		                    <th>Id</th>
-		                    <th>Name</th>
-		                    <th>Surname</th>
-		                </tr>
-		                <tr th:each="peli: ${peliculas}">
-		                    <td th:text="${peli.name}"><a th:href="@{/pelicula/{id}/(id=${peli.code})}"th:text="${peli.name}"></a></td>
-		                </tr>
-		            </table>
+		            <h3>Movies Found</h3>
+		            <ul th:each="film: ${peliculas}" style="list-style-type:none">
+						<li><a th:href="@{/pelicula/{id}/(id=${film.code})}"th:text="${film.name}"></a></li>
+					</ul>
 		        </div>
 			</form>
 		</div>

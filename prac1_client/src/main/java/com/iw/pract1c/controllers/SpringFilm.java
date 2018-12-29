@@ -1,12 +1,13 @@
 package com.iw.pract1c.controllers;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import com.iw.pract1c.models.Error;
 import com.iw.pract1c.models.Pelicula;
+import com.iw.pract1c.models.PeliculaException;
 import com.iw.pract1c.models.User;
+import com.iw.pract1c.models.UserException;
 import com.iw.pract1c.repositories.UserRepository;
 
 @Controller
@@ -45,12 +47,15 @@ public class SpringFilm {
 		return "redirect:/login";
 	}
 	
-	@Secured({"ROLE_USER","ROLE_ADMIN"})
+	@Secured({"ROLE_VIEWER","ROLE_ADMIN"})
 	@GetMapping("/searchFilm")
-	public String searchFilm(@RequestParam (value = "name", required = false) String name, Model model) {
-		Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + name,Pelicula.class);
-	    model.addAttribute("search", pelicula);
-	    return "students";
+	public String searchFilm(@RequestParam (value = "name", required = true) String name, @RequestParam (value = "year", required = false) String year,
+			@RequestParam (value = "genre", required = false) String genre, @RequestParam (value = "director", required = false) String director,
+			@RequestParam (value = "cast", required = false) String cast, @RequestParam (value = "score", required = false) String score, Model model) {
+		@SuppressWarnings("unchecked")
+		List<Pelicula> peliculas = restTemplate.getForObject(restServerUrl + "movie/find?name=" + name + "&year=" + year + "&genre=" + genre + "&director=" + director + "&cast=" + cast + "&score=" + score,List.class);
+	    model.addAttribute("peliculas", peliculas);
+	    return "index";
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -70,36 +75,60 @@ public class SpringFilm {
 		return "listFilms";
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Secured({"ROLE_VIEWER","ROLE_ADMIN"})
+	@GetMapping("/catalogo")
+	public String catalogo(Model model) {
+		List<Pelicula> films = restTemplate.getForObject(restServerUrl + "movie/list",List.class);
+		model.addAttribute("films", films);
+		return "catalogo";
+	}
+	
 	@Secured({"ROLE_ADMIN"})
-	@GetMapping("/user/{id}")
-	public String showUser(@PathVariable String id, Model model) {
+	@GetMapping("/user")
+	public String showUser(@RequestParam String id, Model model) throws UserException {
 		User user = userRepo.findByName(id);
-		model.addAttribute("user",user);
-		return "resumeUser";
+		if (user == null) {
+			throw new UserException(2,"NOT_EXISTS");
+		} else {
+			model.addAttribute("user",user);
+			return "resumeUser";
+		}
 	}
 	
 	@Secured({"ROLE_USER","ROLE_ADMIN"})
-	@GetMapping("/pelicula/{id}")
-	public String showFilm(@PathVariable String id, Model model) {
+	@GetMapping("/pelicula")
+	public String showFilm(@RequestParam String id, Model model) throws PeliculaException {
 		Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + id,Pelicula.class);
-		model.addAttribute("pelicula",pelicula);
-		return "resumeFilm";
+		if (pelicula == null) {
+			throw new PeliculaException(2,"NOT_EXISTS");
+		} else {
+			model.addAttribute("pelicula",pelicula);
+			return "resumeFilm";
+		}
 	}
 	
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/removeUser/{id}")
-	public String deleteUser(@PathVariable String id, Model model) {
-		if(userRepo.existsById(id)) {
+	public String deleteUser(@PathVariable String id, Model model) throws UserException {
+		if(!userRepo.existsById(id)) {
+			throw new UserException(2,"NOT_EXITS");
+		} else {
 			userRepo.deleteById(id);
+			return "redirect:/listUsers";
 		}
-		return "redirect:/listUsers";
 	}
 	
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/removeFilm/{id}")
-	public String deleteFilm(@PathVariable String id, Model model) {
-		restTemplate.exchange(restServerUrl + "movie/remove/"+id, HttpMethod.DELETE, new HttpEntity<>(id),String.class);
-		return "redirect:/listFilms";
+	public String deleteFilm(@PathVariable String id, Model model) throws PeliculaException {
+		Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + id,Pelicula.class);
+		if (pelicula == null) {
+			throw new PeliculaException(2,"NOT_EXITS");
+        } else {
+        	restTemplate.exchange(restServerUrl + "movie/remove/"+id, HttpMethod.DELETE, new HttpEntity<>(id),String.class);
+    		return "redirect:/listFilms";
+        }
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -116,15 +145,18 @@ public class SpringFilm {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping(value = "/addUser")
-	public String newProd(@ModelAttribute("user") User user,BindingResult result, ModelMap model) {
+	public String newProd(@ModelAttribute("user") User user,BindingResult result, ModelMap model) throws UserException {
 		if(user != null) {
 			model.addAttribute("name", user.getName());
 	        model.addAttribute("password", user.getPassword());
 	        model.addAttribute("rol", user.getRol());
 	        if(!userRepo.existsById(user.getName())) {
+	        	user.setPassword(passwordEncoder().encode(user.getPassword()));
 	        	userRepo.save(user);
+	        	return "redirect:/listUsers";
+	        } else {
+	        	throw new UserException(1,"EXITS");
 	        }
-	        return "redirect:/listUsers";
 		} else {
 			Error error = new Error("Error al Crear el Usuario","El codigo introducido coincide con un usuario existente","addUserForm","Volver al formulario");
 			model.addAttribute("error",error);
@@ -134,7 +166,7 @@ public class SpringFilm {
 	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping(value = "/addFilm")
-	public String newProd(@ModelAttribute("film") Pelicula film,BindingResult result, ModelMap model) {
+	public String newProd(@ModelAttribute("film") Pelicula film,BindingResult result, ModelMap model) throws PeliculaException {
 		if(film != null) {
 			model.addAttribute("code", film.getName());
 	        model.addAttribute("name", film.getName());
@@ -142,11 +174,17 @@ public class SpringFilm {
 	        model.addAttribute("info", film.getInfo());
 	        model.addAttribute("year", film.getYear());
 	        model.addAttribute("director", film.getDirector());
+	        model.addAttribute("genre", film.getGenre());
 	        model.addAttribute("reparto", film.getReparto());
 	        model.addAttribute("portada", film.getPortada());
 	        model.addAttribute("rate", film.getRate());
-	        restTemplate.exchange(restServerUrl + "movie/add", HttpMethod.POST, new HttpEntity<>(film),Pelicula.class);
-	        return "redirect:/listFilms";
+	        Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + film.getCode(),Pelicula.class);
+	        if(pelicula != null) {
+	        	throw new PeliculaException(1,"EXITS");
+	        } else {
+	        	restTemplate.exchange(restServerUrl + "movie/add", HttpMethod.POST, new HttpEntity<>(film),Pelicula.class);
+		        return "redirect:/listFilms";
+	        }
 		} else {
 			Error error = new Error("Error al Crear la Pelicula","El codigo introducido coincide con una pelicula existente","addFilmForm","Volver al formulario");
 			model.addAttribute("error",error);
@@ -155,24 +193,24 @@ public class SpringFilm {
 	}
 	
 	@Secured({"ROLE_ADMIN"})
-	@GetMapping("/modifyUserForm/{id}")
-	public String modifyUser(@PathVariable String id, Model model,@ModelAttribute User user) {
+	@GetMapping("/modifyUserForm")
+	public String modifyUser(@RequestParam String id, Model model, @ModelAttribute User user) {
 		User olduser = userRepo.findByName(id);
 		model.addAttribute("olduser",olduser);
 		return "modifyUserForm";
 	}
 	
 	@Secured({"ROLE_ADMIN"})
-	@GetMapping("/modifyFilmForm/{id}")
-	public String modifyFilm(@PathVariable String id, Model model,@ModelAttribute Pelicula peli) {
+	@GetMapping("/modifyFilmForm")
+	public String modifyFilm(@RequestParam String id, Model model, @ModelAttribute Pelicula film) {
 		Pelicula oldpeli = restTemplate.getForObject(restServerUrl + "movie/find/" + id,Pelicula.class);
 		model.addAttribute("oldpeli",oldpeli);
 		return "modifyFilmForm";
 	}
 	
 	@Secured({"ROLE_ADMIN"})
-	@PutMapping(value = "/modifyUser")
-	public String modifyUser(@ModelAttribute("user") User user,BindingResult result, ModelMap model) {
+	@PostMapping(value = "/modifyUser")
+	public String modifyUser(@ModelAttribute("user") User user,BindingResult result, ModelMap model) throws UserException {
 		if(user != null) {
 			model.addAttribute("name", user.getName());
 	        model.addAttribute("password", user.getPassword());
@@ -180,8 +218,11 @@ public class SpringFilm {
 	        if(userRepo.existsById(user.getName())) {
 	        	userRepo.deleteById(user.getName());
 	        	userRepo.save(user);
+	        	return "resumeUser";
+	        } else {
+	        	throw new UserException(2, "NOT_EXISTS");
 	        }
-	        return "resumeUser";
+	        
 		} else {
 			Error error = new Error("Error al Modificar el Usuario","El codigo introducido coincide con un usuario existente","addUserForm","Volver al formulario");
 			model.addAttribute("error",error);
@@ -190,8 +231,8 @@ public class SpringFilm {
 	}
 	
 	@Secured({"ROLE_ADMIN"})
-	@PutMapping(value = "/modifyFilm")
-	public String modifyFilm(@ModelAttribute("film") Pelicula film,BindingResult result, ModelMap model) {
+	@PostMapping(value = "/modifyFilm")
+	public String modifyFilm(@ModelAttribute("film") Pelicula film,BindingResult result, ModelMap model) throws PeliculaException {
 		if(film != null) {
 			model.addAttribute("code", film.getName());
 	        model.addAttribute("name", film.getName());
@@ -199,15 +240,25 @@ public class SpringFilm {
 	        model.addAttribute("info", film.getInfo());
 	        model.addAttribute("year", film.getYear());
 	        model.addAttribute("director", film.getDirector());
+	        model.addAttribute("genre", film.getGenre());
 	        model.addAttribute("reparto", film.getReparto());
 	        model.addAttribute("portada", film.getPortada());
 	        model.addAttribute("rate", film.getRate());
-	        restTemplate.exchange(restServerUrl + "movie/modify", HttpMethod.PUT, new HttpEntity<>(film),Pelicula.class);
-	        return "resumeFilm";
+	        Pelicula pelicula = restTemplate.getForObject(restServerUrl + "movie/find/" + film.getCode(),Pelicula.class);
+	        if(pelicula == null) {
+	        	throw new PeliculaException(2,"NOT_EXITS");
+	        } else {
+	        	restTemplate.exchange(restServerUrl + "movie/modify", HttpMethod.PUT, new HttpEntity<>(film),Pelicula.class);
+		        return "resumeFilm";
+	        }
 		} else {
 			Error error = new Error("Error al Modificar la Pelicula","El codigo introducido coincide con una pelicula existente","addFilmForm","Volver al formulario");
 			model.addAttribute("error",error);
 			return "aviso";
 		}
+	}
+	
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
 	}
 }

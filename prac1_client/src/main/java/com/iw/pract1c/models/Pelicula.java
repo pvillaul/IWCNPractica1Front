@@ -10,15 +10,18 @@ public class Pelicula {
 	private String name;
 	private String trailer;
 	private String info;
-	private int year;
+	private Integer year;
 	private String director;
 	private String reparto;
 	private String portada;
-	private double rate;
+	private Float rate;
+	private String genre;
 	
 	public Pelicula() {}
-	
-	public Pelicula(long code,String name, String trailer, String info, int year, String director, String reparto, String portada, double rate) {
+
+	public Pelicula(long code, String name, String trailer, String info, Integer year, String director, String reparto,
+			String portada, Float rate, String genre) {
+		super();
 		this.code = code;
 		this.name = name;
 		this.trailer = trailer;
@@ -28,8 +31,9 @@ public class Pelicula {
 		this.reparto = reparto;
 		this.portada = portada;
 		this.rate = rate;
+		this.genre = genre;
 	}
-	
+
 	public long getCode() {
 		return code;
 	}
@@ -62,11 +66,11 @@ public class Pelicula {
 		this.info = info;
 	}
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
@@ -94,11 +98,19 @@ public class Pelicula {
 		this.portada = portada;
 	}
 
-	public double getRate() {
+	public Float getRate() {
 		return rate;
 	}
 
-	public void setRate(double rate) {
+	public void setRate(Float rate) {
 		this.rate = rate;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 }

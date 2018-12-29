@@ -4,24 +4,24 @@
       layout:decorate="~{fragments/layout}"
       layout:decorator="fragments/layout">
 <head>
-    <title>Usuarios</title>
+    <title>Users</title>
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
-		<h3>Lista de Usuarios</h3>
+		<h3>Users List</h3>
 		<hr>
-		<div th:each="user : ${users}">
-			<span>
-				<a th:href="@{/user/{id}/(id=${user.name})}"th:text="${user.name}"></a>
-				<a th:href="@{/modifyUserForm/{id}/(id=${user.name})}" role="button" class="btn btn-warning">Editar</a>
-				<a th:href="@{/removeUser/{id}/(id=${user.name})}" role="button" class="btn btn-danger">Eliminar</a>
-			</span>
-			<br>
+		<div class="text-center" th:each="user : ${users}">
+			<div class="row">
+				<a th:href="@{/user(id=${user.name})}" th:text="${user.name}"></a>
+				<a th:href="@{/modifyUserForm(id=${user.name})}" role="button" class="btn btn-warning">Edit</a>
+				<a th:href="@{/removeUser/{id}/(id=${user.name})}" role="button" class="btn btn-danger">Remove</a>
+			</div>
 		</div>
-		<a th:href="@{/addUserForm}" role="button" class="btn btn-success">Nuevo Usuario</a>
+		<hr>
+		<a th:href="@{/addUserForm}" role="button" class="btn btn-success">New User</a>
 		
-		<div class="text-center">
-			<a th:href="@{/}" role="button" class="btn btn-primary">Volver atras</a>
+		<div class="row text-center">
+			<a th:href="@{/}" role="button" class="btn btn-primary">Back</a>
 		</div>
 	</div>
 </body>

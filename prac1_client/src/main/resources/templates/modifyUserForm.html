@@ -4,24 +4,24 @@
       layout:decorate="~{fragments/layout}"
       layout:decorator="fragments/layout">
 <head>
-    <title>Formulario modificar Usuario</title>
+    <title>User Edit Form</title>
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
-	<h3>Editar Usuario</h3>
+	<h3>User Edit</h3>
 	<hr>
 	<form class="form-horizontal" action="/spring-mvc-java/modifyUser" th:action="@{/modifyUser}"
 		th:object="${user}" method="post" modelAttribute="user">
 		
 		<div class="form-group">
-			<label class="control-label col-sm-2" for="name">Nombre:</label>
+			<label class="control-label col-sm-2" for="name">Name:</label>
 		    <div class="col-sm-10">
 		    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${olduser.name}"/>
 		    </div>
 		</div>
 		
 		<div class="form-group">
-			<label class="control-label col-sm-2" for="pass">Contraseña:</label>
+			<label class="control-label col-sm-2" for="pass">Password:</label>
 		    <div class="col-sm-10">
 		    	<input type="password" th:field="*{password}" class="form-control" id="pass" th:value="${olduser.password}"/>
 		    </div>
@@ -36,12 +36,12 @@
 		
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-		    	<button type="submit" class="btn btn-success">Enviar</button>
-		    	<button type="reset" class="btn btn-warning">Borrar</button>
+		    	<button type="submit" class="btn btn-success">Send</button>
+		    	<button type="reset" class="btn btn-warning">Clear All</button>
 		    </div>
 		</div>
 	</form>
-	<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Volver Atras</a>
+	<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Back</a>
 	</div>
 </body>
 </html>

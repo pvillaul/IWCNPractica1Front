@@ -4,21 +4,22 @@
       layout:decorate="~{fragments/layout}"
       layout:decorator="fragments/layout">
 <head>
-    <title>Resumen Usuario</title>
+    <title>User Details</title>
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
-		<div class="row">
-	    	<div class="col-sm-4 col-sm-push-8">
-				<p th:text="'Nombre: ' + ${user.name}"></p>
-				<p th:text="'Contraseña: ' + ${user.password}"></p>
-				<p th:text="'Rol: ' + ${user.rol}"></p>
-	    	</div>
-	    	<div class="col-sm-8 col-sm-pull-4">
-	    		<img src="user.png" th:src="@{user.png}" class="img-responsive" alt="Icono usuario">
-	    	</div>
+		<h3>Users Details</h3>
+		<hr>
+		<div class="center-block text-center" style="border-bottom: 6px solid #054A2E;
+  background-color: #DAD9D6; max-width:400px;padding:5px;padding-top:7px;">
+			<img src="user.png" th:src="@{user.png}" class="img-responsive center-block" alt="Icono usuario">
+			<hr>
+			<p th:text="'Name: ' + ${user.name}"></p>
+			<p th:text="'Password: ' + ${user.password}"></p>
+			<p th:text="'Rol: ' + ${user.rol}"></p>
 	    </div>
-		<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Volver Atras</a>
+	    <hr>
+		<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Back</a>
 	</div>
 </body>
 </html>
