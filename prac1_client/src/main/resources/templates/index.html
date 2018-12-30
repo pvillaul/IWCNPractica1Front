@@ -45,7 +45,7 @@
 				
 				<div class="form-group">
 					<label for="rate">Score:</label>
-					<input type="text" class="form-control" id="rate" placeholder="Score of the Film" name="rate" th:value="${rate}" />
+					<input type="text" class="form-control" id="score" placeholder="Score of the Film" name="score" th:value="${score}" />
 				</div>
 				
 				<button type="submit" class="btn btn-success">Search</button>
@@ -53,7 +53,7 @@
 		        <div th:if="${not #lists.isEmpty(peliculas)}">
 		            <h3>Movies Found</h3>
 		            <ul th:each="film: ${peliculas}" style="list-style-type:none">
-						<li><a th:href="@{/pelicula/{id}/(id=${film.code})}"th:text="${film.name}"></a></li>
+						<li><a th:href="@{/pelicula(id=${film.code})}"th:text="${film.name}"></a></li>
 					</ul>
 		        </div>
 			</form>

@@ -29,10 +29,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 			throw new BadCredentialsException("User not found");
 		}
 		
-		if (!passwordEncoder().matches(password, user.getPassword())) {
-			throw new BadCredentialsException("Wrong password");
-		} else {
+		if (passwordEncoder().matches(password, user.getPassword())) {
 			return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
+		} else {
+			throw new BadCredentialsException("Wrong password");
 		}
 	}
 	
