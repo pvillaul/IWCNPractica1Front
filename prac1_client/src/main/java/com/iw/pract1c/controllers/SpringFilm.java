@@ -55,7 +55,14 @@ public class SpringFilm {
 		@SuppressWarnings("unchecked")
 		List<Pelicula> peliculas = restTemplate.getForObject(restServerUrl + "movie/find?name=" + name + "&year=" + year + "&genre=" + genre + "&director=" + director + "&cast=" + cast + "&score=" + score,List.class);
 	    model.addAttribute("peliculas", peliculas);
-	    return "index";
+	    if(peliculas != null) {
+	    	return "index";
+	    } else {
+	    	Error error = new Error("Error!!","No se ha podido realizar la busqueda","","Back Home");
+			model.addAttribute("error",error);
+			return "aviso";
+	    }
+	    
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -63,7 +70,13 @@ public class SpringFilm {
 	public String listUsers(Model model) {
 		List<User> users = userRepo.findAll();
         model.addAttribute("users", users);
-		return "listUsers";
+        if(users != null) {
+        	return "listUsers";
+        } else {
+        	Error error = new Error("Error!!","No se han cargado los usuarios","","Back Home");
+			model.addAttribute("error",error);
+			return "aviso";
+        }
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -72,7 +85,13 @@ public class SpringFilm {
 	public String listFilms(Model model) {
 		List<Pelicula> films = restTemplate.getForObject(restServerUrl + "movie/list",List.class);
 		model.addAttribute("films", films);
-		return "listFilms";
+		if(films != null) {
+        	return "listFilms";
+        } else {
+        	Error error = new Error("Error!!","No se han cargado las peliculas","","Back Home");
+			model.addAttribute("error",error);
+			return "aviso";
+        }
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -81,7 +100,13 @@ public class SpringFilm {
 	public String catalogo(Model model) {
 		List<Pelicula> films = restTemplate.getForObject(restServerUrl + "movie/list",List.class);
 		model.addAttribute("films", films);
-		return "catalogo";
+		if(films != null) {
+        	return "catalogo";
+        } else {
+        	Error error = new Error("Error!!","No se ha cargado el catalogo","","Back Home");
+			model.addAttribute("error",error);
+			return "aviso";
+        }
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -114,8 +139,14 @@ public class SpringFilm {
 		if(!userRepo.existsById(id)) {
 			throw new UserException(2,"NOT_EXITS");
 		} else {
-			userRepo.deleteById(id);
-			return "redirect:/listUsers";
+			if(id == "root") {
+				Error error = new Error("Error!!","El usuario Root no se puede eliminar","listUsers","Back Users List");
+				model.addAttribute("error",error);
+				return "aviso";
+			} else {
+				userRepo.deleteById(id);
+				return "redirect:/listUsers";
+			}
 		}
 	}
 	

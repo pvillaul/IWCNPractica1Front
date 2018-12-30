@@ -7,44 +7,50 @@
     <title>User Add Form</title>
 </head>
 <body>
-	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
-	<h3>New User</h3>
-	<hr>
-	<form class="form-horizontal" action="/spring-mvc-java/addUser" th:action="@{/addUser}"
-		th:object="${user}" method="post" modelAttribute="user">
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="name">Name:</label>
-		    <div class="col-sm-10">
-		    	<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name of the User">
-		    </div>
+	<div layout:fragment="content" th:remove="tag" class="container">
+		<div sec:authorize="hasRole('VIEWER')">
+			<p>No tiene permisos para visualizar esta pagina</p>
+			<a th:href="@{/}" role="button" class="btn btn-primary">Back Home</a>
 		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="pass">Password:</label>
-		    <div class="col-sm-10">
-		    	<input type="password" th:field="*{password}" class="form-control" id="pass" placeholder="Password of the User">
-		    </div>
+		<div sec:authorize="hasRole('ADMIN')">
+			<h3>New User</h3>
+			<hr>
+			<form class="form-horizontal" action="/spring-mvc-java/addUser" th:action="@{/addUser}"
+				th:object="${user}" method="post" modelAttribute="user">
+				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="name">Name:</label>
+				    <div class="col-sm-10">
+				    	<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name of the User">
+				    </div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="pass">Password:</label>
+				    <div class="col-sm-10">
+				    	<input type="password" th:field="*{password}" class="form-control" id="pass" placeholder="Password of the User">
+				    </div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="rol">Rol:</label>
+				    <div class="col-sm-10">
+				    	<select class="form-control" th:field="*{rol}" id="rol">
+							<option value="Admin">Admin</option>
+						    <option value="Viewer" selected>Viewer</option>
+						</select>
+				    </div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+				    	<button type="submit" class="btn btn-success">Send</button>
+				    	<button type="reset" class="btn btn-warning">Clear All</button>
+				    </div>
+				</div>
+			</form>
+			<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Back</a>
 		</div>
-		
-		<div class="form-group">
-			<label class="control-label col-sm-2" for="rol">Rol:</label>
-		    <div class="col-sm-10">
-		    	<select class="form-control" th:field="*{rol}" id="rol">
-					<option value="Admin">Admin</option>
-				    <option value="Viewer" selected>Viewer</option>
-				</select>
-		    </div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-		    	<button type="submit" class="btn btn-success">Send</button>
-		    	<button type="reset" class="btn btn-warning">Clear All</button>
-		    </div>
-		</div>
-	</form>
-	<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Back</a>
 	</div>
 </body>
 </html>

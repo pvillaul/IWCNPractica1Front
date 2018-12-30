@@ -1,12 +1,10 @@
 package com.iw.pract1c.controllers;
 
 import java.io.IOException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import com.iw.pract1c.models.ExceptionResponse;
 import com.iw.pract1c.models.PeliculaException;
 import com.iw.pract1c.models.UserException;

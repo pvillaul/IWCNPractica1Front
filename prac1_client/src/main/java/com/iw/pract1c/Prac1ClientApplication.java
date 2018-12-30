@@ -11,4 +11,3 @@ public class Prac1ClientApplication {
 	}
 
 }
-

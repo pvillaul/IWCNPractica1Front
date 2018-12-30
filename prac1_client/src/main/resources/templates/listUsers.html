@@ -7,21 +7,27 @@
     <title>Users</title>
 </head>
 <body>
-	<div layout:fragment="content" th:remove="tag" sec:authorize="hasRole('ADMIN')" class="container">
-		<h3>Users List</h3>
-		<hr>
-		<div class="text-center" th:each="user : ${users}">
-			<div class="row">
-				<a th:href="@{/user(id=${user.name})}" th:text="${user.name}"></a>
-				<a th:href="@{/modifyUserForm(id=${user.name})}" role="button" class="btn btn-warning">Edit</a>
-				<a th:href="@{/removeUser/{id}/(id=${user.name})}" role="button" class="btn btn-danger">Remove</a>
-			</div>
+	<div layout:fragment="content" th:remove="tag" class="container">
+		<div sec:authorize="hasRole('VIEWER')">
+			<p>No tiene permisos para visualizar esta pagina</p>
+			<a th:href="@{/}" role="button" class="btn btn-primary">Back Home</a>
 		</div>
-		<hr>
-		<a th:href="@{/addUserForm}" role="button" class="btn btn-success">New User</a>
-		
-		<div class="row text-center">
-			<a th:href="@{/}" role="button" class="btn btn-primary">Back</a>
+		<div sec:authorize="hasRole('ADMIN')">
+			<h3>Users List</h3>
+			<hr>
+			<div class="text-center" th:each="user : ${users}">
+				<div class="row">
+					<a th:href="@{/user(id=${user.name})}" th:text="${user.name}"></a>
+					<a th:href="@{/modifyUserForm(id=${user.name})}" role="button" class="btn btn-warning">Edit</a>
+					<a th:href="@{/removeUser/{id}/(id=${user.name})}" role="button" class="btn btn-danger">Remove</a>
+				</div>
+			</div>
+			<hr>
+			<a th:href="@{/addUserForm}" role="button" class="btn btn-success">New User</a>
+			
+			<div class="row text-center">
+				<a th:href="@{/}" role="button" class="btn btn-primary">Back</a>
+			</div>
 		</div>
 	</div>
 </body>

@@ -1,11 +1,6 @@
 package com.iw.pract1c.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class Pelicula {
-	@Id
 	private long code;
 	private String name;
 	private String trailer;
