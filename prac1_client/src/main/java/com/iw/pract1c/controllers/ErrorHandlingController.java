@@ -11,14 +11,14 @@ import com.iw.pract1c.models.UserException;
 
 @ControllerAdvice
 public class ErrorHandlingController {
-	private final String AVISO = "aviso";
-	private final String BH = "Back Home";
-	private final String ERROR = "ERROR";
-	private final String errorM = "error";
-	private final String ISE = "INTERNAL_SERVER_ERROR";
-	private final String CONFLICT = "CONFLICT";
-	private final String NOTFOUND = "NOT_FOUND";
-	private final String BADREQUEST = "BAD_REQUEST";
+	private final static String aVISO = "aviso";
+	private final static String bH = "Back Home";
+	private final static String eRROR = "ERROR";
+	private final static String errorM = "error";
+	private final static String iSE = "INTERNAL_SERVER_ERROR";
+	private final static String cONFLICT = "CONFLICT";
+	private final static String nOTFOUND = "NOT_FOUND";
+	private final static String bADREQUEST = "BAD_REQUEST";
 	
 	@ExceptionHandler(Exception.class)
 	public String generalException(Exception e, Model model){
@@ -26,9 +26,9 @@ public class ErrorHandlingController {
 		ExceptionResponse response = new ExceptionResponse();
 		response.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		response.setDescription(e.getMessage());
-		Error error = new Error(ERROR + "500",ISE,"",BH);
+		Error error = new Error(eRROR + "500",iSE,"",bH);
 		model.addAttribute(errorM,error);
-		return AVISO;
+		return aVISO;
 	}
 	
 	@ExceptionHandler(PeliculaException.class)
@@ -40,19 +40,19 @@ public class ErrorHandlingController {
 		switch (e.getCode()) {
 		case 1:
 			response.setCode(HttpStatus.CONFLICT.value());
-			Error error = new Error(ERROR,CONFLICT,"",BH);
+			Error error = new Error(eRROR,cONFLICT,"",bH);
 			model.addAttribute(errorM,error);
-			return AVISO;
+			return aVISO;
 		case 2:
 			response.setCode(HttpStatus.NOT_FOUND.value());
-			Error error2 = new Error(ERROR,NOTFOUND,"",BH);
+			Error error2 = new Error(eRROR,nOTFOUND,"",bH);
 			model.addAttribute(errorM,error2);
-			return AVISO;
+			return aVISO;
 		default:
 			response.setCode(HttpStatus.BAD_REQUEST.value());
-			Error error3 = new Error(ERROR,BADREQUEST,"",BH);
+			Error error3 = new Error(eRROR,bADREQUEST,"",bH);
 			model.addAttribute(errorM,error3);
-			return AVISO;
+			return aVISO;
 		}
 	}
 	
@@ -65,19 +65,19 @@ public class ErrorHandlingController {
 		switch (e.getCode()) {
 		case 1:
 			response.setCode(HttpStatus.CONFLICT.value());
-			Error error = new Error(ERROR,CONFLICT,"",BH);
+			Error error = new Error(eRROR,cONFLICT,"",bH);
 			model.addAttribute(errorM,error);
-			return AVISO;
+			return aVISO;
 		case 2:
 			response.setCode(HttpStatus.NOT_FOUND.value());
-			Error error2 = new Error(ERROR,NOTFOUND,"",BH);
+			Error error2 = new Error(eRROR,nOTFOUND,"",bH);
 			model.addAttribute(errorM,error2);
-			return AVISO;
+			return aVISO;
 		default:
 			response.setCode(HttpStatus.BAD_REQUEST.value());
-			Error error3 = new Error(ERROR,BADREQUEST,"",BH);
+			Error error3 = new Error(eRROR,bADREQUEST,"",bH);
 			model.addAttribute(errorM,error3);
-			return AVISO;
+			return aVISO;
 		}
 	}
 }
