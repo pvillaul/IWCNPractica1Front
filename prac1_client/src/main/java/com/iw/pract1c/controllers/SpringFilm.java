@@ -51,60 +51,60 @@ public class SpringFilm {
 	@GetMapping("/searchFilm")
 	public String searchFilm(@RequestParam (value = "name", required = true) String name, @RequestParam (value = "year", required = false) String year,
 			@RequestParam (value = "genre", required = false) String genre, @RequestParam (value = "director", required = false) String director,
-			@RequestParam (value = "cast", required = false) String cast, @RequestParam (value = "score", required = false) String score, Model model) {
+			@RequestParam (value = "cast", required = false) String cast, @RequestParam (value = "score", required = false) String score, Model model) throws PeliculaException {
 		@SuppressWarnings("unchecked")
 		List<Pelicula> peliculas = restTemplate.getForObject(restServerUrl + "movie/find?name=" + name + "&year=" + year + "&genre=" + genre + "&director=" + director + "&cast=" + cast + "&score=" + score,List.class);
 	    model.addAttribute("peliculas", peliculas);
-	    if(peliculas != null) {
-	    	return "index";
+	    if(peliculas == null) {
+	    	throw new PeliculaException(2,"NOT_EXISTS");
 	    } else {
-	    	Error error = new Error("Error!!","No se ha podido realizar la busqueda","","Back Home");
-			model.addAttribute("error",error);
-			return "aviso";
+	    	//Error error = new Error("Error!!","No se ha podido realizar la busqueda","","Back Home");
+			//model.addAttribute("error",error);
+			return "index";
 	    }
 	}
 	
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/listUsers")
-	public String listUsers(Model model) {
+	public String listUsers(Model model) throws UserException {
 		List<User> users = userRepo.findAll();
         model.addAttribute("users", users);
-        if(users != null) {
-        	return "listUsers";
+        if(users == null) {
+        	throw new UserException(2,"NOT_EXISTS");
         } else {
-        	Error error = new Error("Error!!","No se han cargado los usuarios","","Back Home");
-			model.addAttribute("error",error);
-			return "aviso";
+        	//Error error = new Error("Error!!","No se han cargado los usuarios","","Back Home");
+			//model.addAttribute("error",error);
+			return "listUsers";
         }
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/listFilms")
-	public String listFilms(Model model) {
+	public String listFilms(Model model) throws PeliculaException {
 		List<Pelicula> films = restTemplate.getForObject(restServerUrl + "movie/list",List.class);
 		model.addAttribute("films", films);
-		if(films != null) {
-        	return "listFilms";
+		if(films == null) {
+			throw new PeliculaException(2,"NOT_EXISTS");
         } else {
-        	Error error = new Error("Error!!","No se han cargado las peliculas","","Back Home");
-			model.addAttribute("error",error);
-			return "aviso";
+        	//Error error = new Error("Error!!","No se han cargado las peliculas","","Back Home");
+			//model.addAttribute("error",error);
+			return "listFilms";
         }
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Secured({"ROLE_VIEWER","ROLE_ADMIN"})
 	@GetMapping("/catalogo")
-	public String catalogo(Model model) {
+	public String catalogo(Model model) throws PeliculaException {
 		List<Pelicula> films = restTemplate.getForObject(restServerUrl + "movie/list",List.class);
 		model.addAttribute("films", films);
-		if(films != null) {
-        	return "catalogo";
+		if(films == null) {
+			throw new PeliculaException(2,"NOT_EXISTS");
         } else {
-        	Error error = new Error("Error!!","No se ha cargado el catalogo","","Back Home");
-			model.addAttribute("error",error);
-			return "aviso";
+        	//Error error = new Error("Error!!","No se ha cargado el catalogo","","Back Home");
+			//model.addAttribute("error",error);
+			return "catalogo";
         }
 	}
 	
