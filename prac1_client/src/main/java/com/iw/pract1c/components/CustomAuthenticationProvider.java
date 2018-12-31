@@ -23,18 +23,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		String password = authentication.getCredentials().toString();
 		
 		User user;
-		try {
-			user = userRepository.findByName(username);
-		} catch(Exception e) {
+		user = userRepository.findByName(username);
+		if(user != null){
+			if (passwordEncoder().matches(password, user.getPassword())) {
+				return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
+			}
+			else{
+				throw new BadCredentialsException("Wrong password");
+			}
+		}
+		else{
 			throw new BadCredentialsException("User not found");
 		}
-		
-		if (!passwordEncoder().matches(password, user.getPassword())) {
-			throw new BadCredentialsException("Wrong password");
-		}
-
-		return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
-
 	}
 	
 	public PasswordEncoder passwordEncoder() {

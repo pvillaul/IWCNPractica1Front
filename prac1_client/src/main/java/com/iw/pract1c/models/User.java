@@ -5,12 +5,15 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
+@Table(name = "test")
 public class User {
 	String ROLEPREFIX = "ROLE_";
 	
