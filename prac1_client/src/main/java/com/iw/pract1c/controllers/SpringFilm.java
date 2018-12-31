@@ -62,7 +62,6 @@ public class SpringFilm {
 			model.addAttribute("error",error);
 			return "aviso";
 	    }
-	    
 	}
 	
 	@Secured({"ROLE_ADMIN"})
@@ -139,7 +138,8 @@ public class SpringFilm {
 		if(!userRepo.existsById(id)) {
 			throw new UserException(2,"NOT_EXITS");
 		} else {
-			if(id == "root") {
+			User user = userRepo.findByName(id);
+			if(user.getName() == "root") {
 				Error error = new Error("Error!!","El usuario Root no se puede eliminar","listUsers","Back Users List");
 				model.addAttribute("error",error);
 				return "aviso";
