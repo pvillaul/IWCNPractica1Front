@@ -21,21 +21,21 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="name">Name:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${olduser.name}"/>
+				    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${user.name}" readonly/>
 				    </div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="pass">Password:</label>
 				    <div class="col-sm-10">
-				    	<input type="password" th:field="*{password}" class="form-control" id="pass" th:value="${olduser.password}"/>
+				    	<input type="text" th:field="*{password}" class="form-control" id="pass" required/>
 				    </div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="rol">Rol:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{rol}" class="form-control" id="rol" th:value="${olduser.rol}"/>
+				    	<input type="text" th:field="*{rol}" class="form-control" id="rol" th:value="${user.rol}"/>
 				    </div>
 				</div>
 				
@@ -46,7 +46,7 @@
 				    </div>
 				</div>
 			</form>
-			<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Back</a>
+			<a th:href="@{/listUsers}" id="send" role="button" class="btn btn-primary">Back</a>
 		</div>
 	</div>
 </body>

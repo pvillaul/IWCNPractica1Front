@@ -16,31 +16,17 @@
 			<h3>New Film</h3>
 			<hr>
 			<form class="form-horizontal" action="/spring-mvc-java/addFilm" th:action="@{/addFilm}"
-				th:object="${film}" method="post" modelAttribute="film">
+				th:object="${pelicula}" method="post" modelAttribute="pelicula">
 				
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="code">Code:</label>
+					<label class="control-label col-sm-2" for="name">Name: (Required)</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{code}" class="form-control" id="code" placeholder="Code of the Film">
+				    	<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name of the Film" required>
 				    </div>
 				</div>
 				
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="name">Name:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name of the Film">
-				    </div>
-				</div>
-				
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="trailer">Trailer:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{trailer}" class="form-control" id="trailer" placeholder="Url of the Trailer">
-				    </div>
-				</div>
-				
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="info">Info:</label>
+					<label class="control-label col-sm-2" for="info">Description:</label>
 				    <div class="col-sm-10">
 				    	<textarea rows="5" th:field="*{info}" class="form-control" id="info" placeholder="Info about the Film"></textarea>
 				    </div>
@@ -49,22 +35,22 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="year">Year:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{year}" class="form-control" id="year" placeholder="Year of the Film">
+				    	<input type="number" th:field="*{year}" class="form-control" id="year" placeholder=2018 min="1500">
 				    </div>
 				</div>
-				
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="director">Director:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{director}" class="form-control" id="director" placeholder="Director of the Film">
-				    </div>
-				</div>
-				
+
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="genre">Genre:</label>
 				    <div class="col-sm-10">
 				    	<input type="text" th:field="*{genre}" class="form-control" id="genre" placeholder="Genre of the Film">
 				    </div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="director">Director:</label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{director}" class="form-control" id="director" placeholder="Director of the Film">
+					</div>
 				</div>
 				
 				<div class="form-group">
@@ -73,6 +59,20 @@
 				    	<textarea rows="5" th:field="*{reparto}" class="form-control" id="reparto" placeholder="Cast of the Film"></textarea>
 				    </div>
 				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="rate">Rate:</label>
+					<div class="col-sm-10">
+						<select class="form-control" th:field="*{rate}" id="rate">
+							<option value="">Sin rating</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="portada">Poster:</label>
@@ -80,23 +80,18 @@
 				    	<input type="text" th:field="*{portada}" class="form-control" id="portada" placeholder="Url of the Poster">
 				    </div>
 				</div>
-				
+
+
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="rate">Rate:</label>
-				    <div class="col-sm-10">
-				    	<select class="form-control" th:field="*{rate}" id="rate">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-						    <option value="5" selected>5</option>
-						</select>
-				    </div>
+					<label class="control-label col-sm-2" for="Trailer">Trailer:</label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{trailer}" class="form-control" id="trailer" placeholder="Url of the Trailer">
+					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-				    	<button type="submit" class="btn btn-success">Send</button>
+				    	<button type="submit" id="send" class="btn btn-success">Send</button>
 				    	<button type="reset" class="btn btn-warning">Clear All</button>
 				    </div>
 				</div>

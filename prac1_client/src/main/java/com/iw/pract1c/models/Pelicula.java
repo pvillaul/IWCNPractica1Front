@@ -1,15 +1,29 @@
 package com.iw.pract1c.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Pelicula {
+	@JsonProperty("id")
 	private long code;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("trailer")
 	private String trailer;
+	@JsonProperty("description")
 	private String info;
+	@JsonProperty("year")
 	private Integer year;
+	@JsonProperty("director")
 	private String director;
+	@JsonProperty("cast")
 	private String reparto;
+	@JsonProperty("poster")
 	private String portada;
+	@JsonProperty("score")
 	private Float rate;
+	@JsonProperty("genre")
 	private String genre;
 	
 	public Pelicula() {}
@@ -108,4 +122,5 @@ public class Pelicula {
 	public void setGenre(String genre) {
 		this.genre = genre;
 	}
+
 }

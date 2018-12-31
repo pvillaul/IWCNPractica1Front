@@ -1,11 +1,14 @@
 package tests;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
 import com.iw.pract1c.models.Pelicula;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -17,6 +20,8 @@ import junit.framework.Assert;
 @SuppressWarnings("deprecation")
 public class AddPelicula {
     Pelicula peli = new Pelicula();
+    
+    int oldnumProducts = 0;
     
     @Before
     public void startBrowser() {
@@ -42,28 +47,33 @@ public class AddPelicula {
     public void save_the_film_Peliucla() throws Throwable {
     	WebDriver driver = RunEnvironment.getWebDriver();
     	driver.get("http://localhost:8080/listFilms");
+    	
+    	List<WebElement> elementsold = driver.findElements(By.id("remove"));
+        oldnumProducts = elementsold.size();
 
         // add product
         driver.findElement(By.id("add")).click();
         
-        driver.findElement(By.id("code")).sendKeys(Objects.toString(peli.getCode(), null));
         driver.findElement(By.id("name")).sendKeys(peli.getName());
         driver.findElement(By.id("trailer")).sendKeys(peli.getTrailer());
         driver.findElement(By.id("info")).sendKeys(peli.getInfo());
         driver.findElement(By.id("year")).sendKeys(Integer.toString(peli.getYear()));
         driver.findElement(By.id("director")).sendKeys(peli.getDirector());
-        driver.findElement(By.id("cast")).sendKeys(peli.getReparto());
+        driver.findElement(By.id("reparto")).sendKeys(peli.getReparto());
         driver.findElement(By.id("portada")).sendKeys(peli.getPortada());
         driver.findElement(By.id("rate")).sendKeys(Float.toString(peli.getRate()));
         driver.findElement(By.id("genre")).sendKeys(peli.getGenre());
         
-        driver.findElement(By.id("add")).click();
+        driver.findElement(By.id("send")).click();
     }
 
     @Then("^Returns <Pelicula>$")
     public void returns_Pelicula() throws Throwable {
-        WebDriver driver = RunEnvironment.getWebDriver();
-        Assert.assertEquals(Integer.toString(99),driver.getTitle());
+    	WebDriver driver = RunEnvironment.getWebDriver();
+        List<WebElement> elementsnew = driver.findElements(By.id("remove"));
+        int newnumProducts = elementsnew.size();
+        
+        Assert.assertTrue(oldnumProducts  < newnumProducts );
     }
     
     @After

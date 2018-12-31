@@ -14,20 +14,18 @@
     		<div class="col-sm-4 col-sm-push-8">
     			<h2 th:text="'Title: ' + ${pelicula.name}"></h2>
     			<h3 th:text="'Year: ' + ${pelicula.year}"></h3>
-    			<p>Rate <span class="badge" th:text="${pelicula.rate}"></span></p>
+    			<h3>Score <span class="badge" th:text="${pelicula.rate}"></span></h3>
+				<h3 id="genre" th:text="'Genre: ' + ${pelicula.genre}"></h3>
+				<h3 th:text="'Description: ' + ${pelicula.info}"></h3>
+				<h3 th:text="'Director: ' + ${pelicula.director}"></h3>
+				<h3 th:text="'Cast: ' + ${pelicula.reparto}"></h3>
     		</div>
     		<div class="col-sm-8 col-sm-pull-4">
     			 <img th:src="${pelicula.portada}" class="img-thumbnail img-responsive" alt="Portada pelicula">
     		</div>
     	</div>
     	
-    	<div class="row">
-    		<p th:text="'Info: ' + ${pelicula.info}"></p>
-    		<p th:text="'Director: ' + ${pelicula.director}"></p>
-			<p th:text="'Cast: ' + ${pelicula.reparto}"></p>
-    	</div>
-    	
-    	<div class="embed-responsive embed-responsive-16by9">
+    	<div align="center" class="embed-responsive embed-responsive-16by9">
 			<iframe class="embed-responsive-item" th:src="${pelicula.trailer}" allowfullscreen></iframe>
 		</div>
 		<a th:href="@{/listFilms}" role="button" class="btn btn-primary">Back</a>

@@ -13,6 +13,9 @@
 			<h3>The web that puts you up to date with the new releases</h3>
 			<h3>and also with the classics</h3>
 			<a th:href="@{/catalogo}" role="button" class="btn btn-success">All Films</a>
+            <div th:if="${errorAll != null}">
+                <span th:text="${errorAll}"></span>
+            </div>
 		</div>
 		
 		<div class="text-center">
@@ -44,13 +47,11 @@
 				</div>
 				
 				<div class="form-group">
-					<label for="rate">Score:</label>
+					<label for="score">Score:</label>
 					<input type="text" class="form-control" id="score" placeholder="Score of the Film" name="score" th:value="${score}" />
 				</div>
 				
 				<button type="submit" class="btn btn-success">Search</button>
-				
-				<hr>
 				    
 		        <div th:if="${not #lists.isEmpty(peliculas)}">
 		            <h3>Movies Found</h3>
@@ -58,6 +59,9 @@
 						<li><a th:href="@{/pelicula(id=${film.code})}"th:text="${film.name}"></a></li>
 					</ul>
 		        </div>
+                <div th:if="${error != null}">
+                    <span th:text="${error}"></span>
+                </div>
 			</form>
 		</div>
 	</div>

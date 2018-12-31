@@ -20,7 +20,7 @@
 				<img src="user.png" th:src="@{user.png}" class="img-responsive center-block" alt="Icono usuario">
 				<hr>
 				<p th:text="'Name: ' + ${user.name}"></p>
-				<p th:text="'Password: ' + ${user.password}"></p>
+				<p id="password" th:text="'Password: ' + ${user.password}"></p>
 				<p th:text="'Rol: ' + ${user.rol}"></p>
 		    </div>
 		    <hr>

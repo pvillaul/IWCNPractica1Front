@@ -16,81 +16,87 @@
 			<h3>Film Edit</h3>
 			<hr>
 			<form class="form-horizontal" action="/spring-mvc-java/modifyFilm" th:action="@{/modifyFilm}"
-				th:object="${film}" method="post" modelAttribute="film">
-				
+				th:object="${pelicula}" method="post" modelAttribute="pelicula">
+
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="code">Code:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{code}" class="form-control" id="code" th:value="${oldpeli.code}" readonly />
+				    	<input type="text" th:field="*{code}" class="form-control" id="code" th:value="${pelicula.code}" readonly />
 				    </div>
 				</div>
-				
+
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="name">Name:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${oldpeli.name}"/>
+				    	<input type="text" th:field="*{name}" class="form-control" id="name" th:value="${pelicula.name}"/>
 				    </div>
 				</div>
 				
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="trailer">Trailer:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{trailer}" class="form-control" id="trailer" th:value="${oldpeli.trailer}"/>
-				    </div>
-				</div>
+
 				
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="info">Info:</label>
+					<label class="control-label col-sm-2" for="info">Description:</label>
 				    <div class="col-sm-10">
-				    	<textarea rows="5" th:field="*{info}" class="form-control" id="info" th:value="${oldpeli.info}"></textarea>
+				    	<textarea rows="5" th:field="*{info}" class="form-control" id="info" th:value="${pelicula.info}"></textarea>
 				    </div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="year">Year:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{year}" class="form-control" id="year" th:value="${oldpeli.year}"/>
+				    	<input type="number" th:field="*{year}" class="form-control" id="year" th:value="${pelicula.year}" min="1500"/>
 				    </div>
 				</div>
 				
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="director">Director:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{director}" class="form-control" id="director" th:value="${oldpeli.director}"/>
-				    </div>
-				</div>
+
 				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="genre">Genre:</label>
 				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{genre}" class="form-control" id="genre" th:value="${oldpeli.director}"/>
+				    	<input type="text" th:field="*{genre}" class="form-control" id="genre" th:value="${pelicula.genre}"/>
 				    </div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="director">Director:</label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{director}" class="form-control" id="director" th:value="${pelicula.director}"/>
+					</div>
 				</div>
 				
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="reparto">Cast:</label>
 				    <div class="col-sm-10">
-				    	<textarea rows="5" th:field="*{reparto}" class="form-control" id="reparto" th:value="${oldpeli.reparto}"></textarea>
+				    	<textarea rows="5" th:field="*{reparto}" class="form-control" id="reparto" th:value="${pelicula.reparto}"></textarea>
 				    </div>
 				</div>
 				
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="rate">Score:</label>
+				    <div class="col-sm-10">
+				    	<input type="number" th:field="*{rate}" class="form-control" id="rate" th:value="${pelicula.portada}" min="0" max="5"/>
+				    </div>
+				</div>
+
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="portada">Poster:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{portada}" class="form-control" id="portada" th:value="${oldpeli.portada}"/>
-				    </div>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{portada}" class="form-control" id="portada" th:value="${pelicula.portada}"/>
+					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="rate">Rate:</label>
-				    <div class="col-sm-10">
-				    	<input type="text" th:field="*{rate}" class="form-control" id="rate" th:value="${oldpeli.portada}"/>
-				    </div>
+					<label class="control-label col-sm-2" for="trailer">Trailer:</label>
+					<div class="col-sm-10">
+						<input type="text" th:field="*{trailer}" class="form-control" id="trailer" th:value="${pelicula.trailer}"/>
+					</div>
 				</div>
-				
+
+
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-				    	<button type="submit" class="btn btn-success">Send</button>
+				    	<button type="submit" id="send" class="btn btn-success">Send</button>
 				    	<button type="reset" class="btn btn-warning">Clear All</button>
 				    </div>
 				</div>

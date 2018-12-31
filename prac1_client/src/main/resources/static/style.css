@@ -23,3 +23,10 @@ footer{font-family: 'ZCOOL KuaiLe', cursive;}
 .navbar-inverse .navbar-nav>.dropdown>a .caret { border-bottom-color: #999999}
 .navbar-inverse .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
 .navbar-brand {font-family: 'ZCOOL KuaiLe', cursive;}
+
+#footer {
+    clear: both;
+    position: relative;
+    height: 40px;
+    margin-top: -40px;
+}
