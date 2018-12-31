@@ -244,7 +244,7 @@ public class SpringFilm {
 	@GetMapping("/modifyFilmForm")
 	public String modifyFilm(@RequestParam String id, Model model, @ModelAttribute Pelicula film) throws PeliculaException{
 		Pelicula oldpeli = restTemplate.getForObject(restServerUrl + "movie/find/" + id,Pelicula.class);
-		System.out.println(oldpeli.getName());
+		//System.out.println(oldpeli.getName());
 
 		if (oldpeli == null) {
 			throw new PeliculaException(2,"NOT_EXISTS");

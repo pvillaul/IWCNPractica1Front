@@ -41,12 +41,14 @@
 				
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-				    	<button type="submit" class="btn btn-success">Send</button>
+				    	<button name = "send" type="submit" class="btn btn-success">Send</button>
 				    	<button type="reset" class="btn btn-warning">Clear All</button>
 				    </div>
 				</div>
+
+
 			</form>
-			<a th:href="@{/listUsers}" id="send" role="button" class="btn btn-primary">Back</a>
+			<a th:href="@{/listUsers}" role="button" class="btn btn-primary">Back</a>
 		</div>
 	</div>
 </body>

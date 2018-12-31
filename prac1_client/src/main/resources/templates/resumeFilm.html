@@ -12,10 +12,10 @@
 		<hr>
 		<div class="row">
     		<div class="col-sm-4 col-sm-push-8">
-    			<h2 th:text="'Title: ' + ${pelicula.name}"></h2>
+    			<h2 th:text="'Title: ' + ${pelicula.name}" th:name="${pelicula.name}"></h2>
     			<h3 th:text="'Year: ' + ${pelicula.year}"></h3>
     			<h3>Score <span class="badge" th:text="${pelicula.rate}"></span></h3>
-				<h3 id="genre" th:text="'Genre: ' + ${pelicula.genre}"></h3>
+				<h3 th:text="'Genre: ' + ${pelicula.genre}"></h3>
 				<h3 th:text="'Description: ' + ${pelicula.info}"></h3>
 				<h3 th:text="'Director: ' + ${pelicula.director}"></h3>
 				<h3 th:text="'Cast: ' + ${pelicula.reparto}"></h3>
@@ -25,7 +25,7 @@
     		</div>
     	</div>
     	
-    	<div align="center" class="embed-responsive embed-responsive-16by9">
+    	<div class="embed-responsive embed-responsive-16by9">
 			<iframe class="embed-responsive-item" th:src="${pelicula.trailer}" allowfullscreen></iframe>
 		</div>
 		<a th:href="@{/listFilms}" role="button" class="btn btn-primary">Back</a>

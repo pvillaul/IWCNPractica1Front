@@ -18,13 +18,13 @@
 			<div class="text-center" th:each="film : ${films}">
 				<div class="row">
 					<a th:href="@{/pelicula(id=${film.code})}"th:text="${film.name}"></a>
-					<a th:href="@{/modifyFilmForm(id=${film.code})}" id="edit" role="button" class="btn btn-warning">Edit</a>
-					<a th:href="@{/removeFilm/{id}/(id=${film.code})}" id="remove" role="button" class="btn btn-danger">Remove</a>
+					<a th:href="@{/modifyFilmForm(id=${film.code})}" role="button" class="btn btn-warning" th:name="@{modify(id=${film.name})}">Edit</a>
+					<a th:href="@{/removeFilm/{id}/(id=${film.code})}" role="button" class="btn btn-danger" th:name="@{remove(id=${film.name})}">Remove</a>
 				</div>
 				<br>
 			</div>
 			<hr>
-			<a th:href="@{/addFilmForm}" id="add" role="button" class="btn btn-success">New Film</a>
+			<a th:href="@{/addFilmForm}" role="button" class="btn btn-success" name = "addFilm">New Film</a>
 			
 			<div class="row text-center">
 				<a th:href="@{/}" role="button" class="btn btn-primary">Back</a>

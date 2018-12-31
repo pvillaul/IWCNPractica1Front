@@ -18,12 +18,12 @@
 			<div class="text-center" th:each="user : ${users}">
 				<div class="row">
 					<a th:href="@{/user(id=${user.name})}" th:text="${user.name}"></a>
-					<a th:href="@{/modifyUserForm(id=${user.name})}" id="edit" role="button" class="btn btn-warning">Edit</a>
-					<a th:href="@{/removeUser/{id}/(id=${user.name})}" id="remove" role="button" class="btn btn-danger">Remove</a>
+					<a th:href="@{/modifyUserForm(id=${user.name})}" role="button" class="btn btn-warning" th:name="@{modify(id=${user.name})}">Edit</a>
+					<a th:href="@{/removeUser/{id}/(id=${user.name})}" role="button" class="btn btn-danger" th:name="@{remove(id=${user.name})}">Remove</a>
 				</div>
 			</div>
 			<hr>
-			<a th:href="@{/addUserForm}" id="add" role="button" class="btn btn-success">New User</a>
+			<a th:href="@{/addUserForm}" name = "add" role="button" class="btn btn-success">New User</a>
 			
 			<div class="row text-center">
 				<a th:href="@{/}" role="button" class="btn btn-primary">Back</a>

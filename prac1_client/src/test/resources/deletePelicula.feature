@@ -1,5 +1,8 @@
 Feature: Delete pelicula
 	Scenario: Deleting a film in database
-	Given I have a film <Pelicula>
-	When Delete the film <Pelicula>
-	Then Returns <Null>
+		Given I open Firefox web browser and launch the application
+		And I have a movie <Pelicula>
+		And I have a admin user <UserA>
+		Then Get to Movie Management Index
+		When Delete the Movie <Pelicula>
+		Then Validate delete <Pelicula>
