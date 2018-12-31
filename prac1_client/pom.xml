@@ -15,7 +15,20 @@
 	<description>Practica 1 de Ingeneria Web Cliente</description>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.jacoco.version>0.8.2</sonar.jacoco.version>
+		<sonar.exclusions>
+			src/main/java/com/iw/pract1c/Prac1ClientApplication.java,
+			src/main/java/com/iw/pract1c/controllers/SpringFilm.java,
+			src/main/java/com/iw/pract1c/controllers/MyErrorController.java,
+			src/main/java/com/iw/pract1c/controllers/ErrorHandlingController.java,
+			src/main/java/com/iw/pract1c/models/User.java,
+			src/main/java/com/iw/pract1c/models/Pelicula.java,
+			src/main/java/com/iw/pract1c/repositories/UserRepository.java
+		</sonar.exclusions>
 	</properties>
 
 	<dependencies>
