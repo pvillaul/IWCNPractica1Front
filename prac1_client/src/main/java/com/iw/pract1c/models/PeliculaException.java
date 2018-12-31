@@ -10,8 +10,6 @@ public class PeliculaException extends Exception{
 	private int code;
 	private String description;
 	
-	
-	
 	public PeliculaException(int code, String description) {
 		super();
 		this.code = code;

@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 public class User {
-	String ROLE_PREFIX = "ROLE_";
+	String ROLEPREFIX = "ROLE_";
 	
 	@Id
 	private String name;
@@ -51,10 +51,10 @@ public class User {
 		this.rol = rol;
 	}
 	
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+	public Collection<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<>();
 
-        list.add(new SimpleGrantedAuthority(ROLE_PREFIX + rol));
+        list.add(new SimpleGrantedAuthority(ROLEPREFIX + rol));
 
         return list;
     }

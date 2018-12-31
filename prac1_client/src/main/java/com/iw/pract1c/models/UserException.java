@@ -10,8 +10,6 @@ public class UserException extends Exception{
 	private int code;
 	private String description;
 	
-	
-	
 	public UserException(int code, String description) {
 		super();
 		this.code = code;

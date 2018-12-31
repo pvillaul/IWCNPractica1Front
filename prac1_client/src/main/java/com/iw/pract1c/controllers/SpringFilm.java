@@ -29,6 +29,13 @@ import com.iw.pract1c.repositories.UserRepository;
 
 @Controller
 public class SpringFilm {
+	private final String AVISO = "aviso";
+	private final String INDEX = "index";
+	private final String BH = "Back Home";
+	private final String ERROR = "ERROR";
+	private final String errorM = "error";
+	private final String SEARCH = "No se ha obtenido resultados al realizar la busqueda";
+	
 	@Autowired
 	private UserRepository userRepo;
 	
@@ -40,7 +47,7 @@ public class SpringFilm {
 	
 	@RequestMapping(value = {"/","/login"})
 	public String login() {
-		return "index";
+		return INDEX;
 	}
 	
 	@RequestMapping(value = {"/logout"})
@@ -57,20 +64,20 @@ public class SpringFilm {
 			Pelicula[] peliculas = restTemplate.getForObject(restServerUrl + "movie/find?name=" + name + "&year=" + year + "&genre=" + genre + "&director=" + director + "&cast=" + cast + "&score=" + score,Pelicula[].class);
 			if(peliculas != null) {
 				model.addAttribute("peliculas", peliculas);
-				return "index";
+				return INDEX;
 			}
 			else{
-				Error error = new Error("Error!!","No se ha obtenido resultados al realizar la busqueda","","Back Home");
+				Error error = new Error(ERROR,"No se ha obtenido resultados al realizar la busqueda","",BH);
 				//String errorMessage = "No se ha obtenido resultados al realizar la busqueda";
-				model.addAttribute("error",error);
-				return "aviso";
+				model.addAttribute(errorM,error);
+				return AVISO;
 			}
 		}
 		catch(HttpStatusCodeException exception){
 			//Error error = new Error("Error!!","No se ha obtenido resultados al realizar la busqueda","","Back Home");
 			String errorMessage = "No se ha obtenido resultados al realizar la busqueda";
-			model.addAttribute("error",errorMessage);
-			return "index";
+			model.addAttribute(errorM,errorMessage);
+			return INDEX;
 		}
 
 	}
@@ -83,9 +90,9 @@ public class SpringFilm {
         if(users != null) {
         	return "listUsers";
         } else {
-        	Error error = new Error("Error!!","No se han cargado los usuarios","","Back Home");
-			model.addAttribute("error",error);
-			return "aviso";
+        	Error error = new Error(ERROR,"No se han cargado los usuarios","",BH);
+			model.addAttribute(errorM,error);
+			return AVISO;
         }
 	}
 	
@@ -97,9 +104,9 @@ public class SpringFilm {
 		if(films != null) {
         	return "listFilms";
         } else {
-        	Error error = new Error("Error!!","No se han cargado las peliculas","","Back Home");
-			model.addAttribute("error",error);
-			return "aviso";
+        	Error error = new Error(ERROR,"No se han cargado las peliculas","",BH);
+			model.addAttribute(errorM,error);
+			return AVISO;
         }
 	}
 	
@@ -115,13 +122,13 @@ public class SpringFilm {
 			else{
 				String errorMessage = "No se ha obtenido resultados al realizar la busqueda";
 				model.addAttribute("errorAll",errorMessage);
-				return "index";
+				return INDEX;
 			}
 		}
 		catch(HttpStatusCodeException exception){
 			String errorMessage = "No se ha obtenido resultados al realizar la busqueda";
 			model.addAttribute("errorAll",errorMessage);
-			return "index";
+			return INDEX;
 		}
 	}
 	
@@ -156,9 +163,9 @@ public class SpringFilm {
 			throw new UserException(2,"NOT_EXITS");
 		} else {
 			if(id == "root") {
-				Error error = new Error("Error!!","El usuario Root no se puede eliminar","listUsers","Back Users List");
-				model.addAttribute("error",error);
-				return "aviso";
+				Error error = new Error(ERROR,"El usuario Root no se puede eliminar","listUsers","Back Users List");
+				model.addAttribute(errorM,error);
+				return AVISO;
 			} else {
 				userRepo.deleteById(id);
 				return "redirect:/listUsers";
@@ -201,9 +208,8 @@ public class SpringFilm {
 			userRepo.save(user);
 			return "redirect:/listUsers";
 		} else {
-			//Error error = new Error("Error al Crear el Usuario","El codigo introducido coincide con un usuario existente","addUserForm","Volver al formulario");
 			String errorMessage = "El nombre introducido coincide con un usuario existente";
-			model.addAttribute("error",errorMessage);
+			model.addAttribute(errorM,errorMessage);
 			return "addUserForm";
 		}
 
@@ -227,8 +233,8 @@ public class SpringFilm {
 	        return "redirect:/listFilms";
 		} else {
 			Error error = new Error("Error al Crear la Pelicula","No se introdujo datos a la pelicula","addFilmForm","Volver al formulario");
-			model.addAttribute("error",error);
-			return "aviso";
+			model.addAttribute(errorM,error);
+			return AVISO;
 		}
 	}
 	
@@ -244,7 +250,6 @@ public class SpringFilm {
 	@GetMapping("/modifyFilmForm")
 	public String modifyFilm(@RequestParam String id, Model model, @ModelAttribute Pelicula film) throws PeliculaException{
 		Pelicula oldpeli = restTemplate.getForObject(restServerUrl + "movie/find/" + id,Pelicula.class);
-		//System.out.println(oldpeli.getName());
 
 		if (oldpeli == null) {
 			throw new PeliculaException(2,"NOT_EXISTS");
@@ -264,7 +269,7 @@ public class SpringFilm {
 	        model.addAttribute("rol", user.getRol());
 	        if(userRepo.existsById(user.getName())) {
 				if(user.getPassword() == null || user.getPassword().isEmpty()){
-					user.setPassword("1234"); // If password is empty set default password
+					user.setPassword("1234");
 				}
 				if(user.getRol() == null || user.getRol().isEmpty()){
 					user.setRol(userRepo.findByName(user.getName()).getRol());
@@ -279,8 +284,8 @@ public class SpringFilm {
 	        
 		} else {
 			Error error = new Error("Error al Modificar el Usuario","El codigo introducido coincide con un usuario existente","addUserForm","Volver al formulario");
-			model.addAttribute("error",error);
-			return "aviso";
+			model.addAttribute(errorM,error);
+			return AVISO;
 		}
 	}
 	
@@ -307,8 +312,8 @@ public class SpringFilm {
 	        }
 		} else {
 			Error error = new Error("Error al Modificar la Pelicula","El codigo introducido coincide con una pelicula existente","addFilmForm","Volver al formulario");
-			model.addAttribute("error",error);
-			return "aviso";
+			model.addAttribute(errorM,error);
+			return AVISO;
 		}
 	}
 	
